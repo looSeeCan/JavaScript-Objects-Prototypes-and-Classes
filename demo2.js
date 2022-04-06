@@ -13,12 +13,17 @@
     console.log("person > name", person.name);
     console.log("person > name > firstName", person.name.firstName)
     console.log("check the attributes of person > name > firstName", Object.getOwnPropertyDescriptor(person.name, "firstName"));
-    console.log("change the enumerable attribute to false"); 
+    console.log("change the enumerable attribute to false");
+    
     Object.defineProperty(person.name, "firstName", {enumerable: false});
     console.log("check to see if enumerable was changed", Object.getOwnPropertyDescriptor(person.name, "firstName"));
-    console.log("it does not take effect if you are just checking the index", person.name);
-    console.log("it does take effect if you run a for loop to look for it");
-    for (let attribute in person.name) {//goes into person > name 
-        console.log(attribute, person.name[attribute])//sets the property to the variable attribute, sets the value to the attribute
+    console.log("when the enumerable property is set to false it is no longer visible for loops, Object.keys, and json");
+    for (let item in person.name) {//goes into person > name 
+        console.log(item, person.name[item])//sets the property to the variable item, sets the value to the item
     };
+    console.log(Object.keys(person.name));
+    console.log(JSON.stringify(person));
+
+    console.log("*NOTE* even though enumerable is set to false, it will still show up in normal indexes", person.name);
+    
 })();
