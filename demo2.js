@@ -52,27 +52,22 @@
     person.name = {"firstName": "Lucycan", "lastName": "Ly"}; person.gender = "male"; person.age = 43; console.log(person); console.log(person.name);
     
     console.log("get");
-    Object.defineProperty(person, "fullName", {//im defining this fullname property and
+    Object.defineProperty(person.name, "fullName", {//im defining this fullname property and
         get: function () { //im deifining this get attribute 
-        return `${this.name.firstName} ${this.name.lastName}`;// that is returning the firstName and lastName values
+        return `${this.firstName} ${this.lastName}`;// that is returning the firstName and lastName values
         // basically I created a property in the person object named "fullName" and gave it a value of Lucycan Ly
         },
-        set: function (value) {
-            
-            let nameParts = value.split(" ");
-            this.name.firstName = nameParts[0];
-            this.name.lastName = nameParts[1];
-            
+        set: function (value) {//the parameter here becomes the value of "Sheng Yang". Its been passed from below lin 67.
+            let nameParts = value.split(" ");//returns an array from the value of "Sheng Yang". If there is no space between the "", then it will index every character in its own index.
+            // console.log(nameParts);
+            this.firstName = nameParts[0];//person > name > firstName = the first index from nameParts. In this case Sheng
+            this.lastName = nameParts[1];
         }
         
     });
-    person.fullName = "Sheng Yang";
-    console.log(person.fullName);
-
-    // console.log("check for the fullName property", person.fullName);
-    // // console.log("check the fullName property value:", person.fullName);
-    // console.log(person.name.firstName);
-    // //does the value that I just created have attributes also?
-    // console.log(Object.getOwnPropertyDescriptor(person, "fullName"));
-
+    person.name.fullName = "Sheng Yang Ly";//when I am changing this property to something else, in this case the value is "Sheng Yang", it acts like a function call. The next step goes to the set function^ in the define property. This value of "Sheng Yang" gets passed as an argument.
+    console.log(person.name);
+    console.log(person.name.fullName);
+    // console.log(person);
+    
 })();
