@@ -56,17 +56,63 @@
         this.lastName = lastName; 
     };
 
-    let lucycan = new Person("Lucycan", "Ly"); console.log(lucycan);
-    let sheng = new Person("Sheng", "Yang"); console.log(sheng);
-    console.log(lucycan === sheng); console.log(lucycan.__proto__ === sheng.__proto__);
-    //all the same object, because they are all from the same prototype
-    console.log(Person.prototype); console.log(sheng.__proto__); console.log(lucycan.__proto__);
-    //if you change the prototype, the others will change
-    Person.prototype.gender = "female";
-    console.log(Person.prototype.gender); console.log(sheng.gender); console.log(lucycan.gender);
-    lucycan.gender = "male"; console.log(lucycan.gender); console.log(Person.prototype.gender)// but if you change the person the others do not change.
-
-    // sheng.gender = "male";
-    
+    console.log('lets look at the Person constructor function:', Person);
+    console.log("lets look at the Person prototype:", Person.prototype);
+    let lucycan = new Person("Lucycan", "Ly");
+    console.log("created a new Person lucycan", lucycan);
+    console.log("lucycan prototype", lucycan.__proto__);
+    console.log("Person prototype", Person.prototype);
+    console.log("lets compare the lucycan prototype to the Person Prototype:", lucycan.__proto__ === Person.prototype);
+    console.log("the prototype lucycan and person prototype are the same, but what about the new person object that was created from the person prototype:", lucycan === Person.prototype);
+    console.log("lets give the Person.prototype a property of age:", Person.prototype.age = 43);
+    console.log("check if the age is there:" , Person.prototype);
+    console.log("now, because I gave Person prototype an age property, it is going to stick with the lucycan proto:", lucycan.__proto__);
+    console.log('same as if I give the lucycan proto a property, it will stick with the Person proto:', lucycan.__proto__.gender = "male");
+    console.log("check Person proto:", Person.prototype);
+    console.log("now lucycan is:", lucycan.__proto__);
+    console.log("what happends if I make a new Person here");
+    let sheng = new Person("Sheng", "Yang");
+    console.log("Sheng:", sheng);
+    console.log("shengs proto:", sheng.__proto__);
+    console.log("I want to give new Person sheng a property of age:", sheng.age = 32);
+    console.log("this only effects the new Person:",sheng);
+    console.log(lucycan);
 })();
 
+console.log("prototype chain");
+(() => {
+    function Person(firstName, lastName, age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        Object.defineProperty(this, "fullName", {
+            get: function() {
+                return `${this.firstName} ${this.lastName}`
+            }, 
+            enumerable: true
+        });
+    };
+
+    function Student(firstName, lastName, age) {
+        Person.call(this, firstName, lastName, age);
+        this.enrolledCourses = [];
+        this.enroll = function (courseId) {
+            this.enrolledCourses.push(courseId);
+        };
+        this.getCourses = function () {
+            return `${this.fullName}'s enrolled courses are: ${this.enrolledCourses.join(', ')}`;
+        };
+    };
+
+    Student.prototype = Object.create(Person.prototype);
+    Student.prototype.constructor = Student;
+
+    let lucycan = new Student("Lucycan", "Ly", 43);
+    
+    lucycan.enroll("Math101");
+    lucycan.enroll("Science101");
+    lucycan.enroll("Quantim Physics");
+
+    console.log(lucycan.getCourses());
+
+})();
