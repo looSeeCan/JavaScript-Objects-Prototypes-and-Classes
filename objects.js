@@ -149,69 +149,103 @@
 //     display(sheng.isAdult());
 // })();
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-display("MODULE: JAVASCRIPT OBJECT PROPERTIES");
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// display("MODULE: JAVASCRIPT OBJECT PROPERTIES");
 
-(() => {
-    let person = {
-        firstName: "Lucycan",
-        lastName: "Ly",   
-        age: 43,
-    };
-    // a note on bracket notation
-    for (let propertyName in person) {//declare a variable, in this case "propertyName" to use for the object "person"
-        display(propertyName);//the loop loops thru the property nanmes and displays them  
-    };
+// (() => {
+//     let person = {
+//         firstName: "Lucycan",
+//         lastName: "Ly",   
+//         age: 43,
+//     };
+//     // a note on bracket notation
+//     for (let propertyName in person) {//declare a variable, in this case "propertyName" to use for the object "person"
+//         display(propertyName);//the loop loops thru the property nanmes and displays them  
+//     };
 
-    for (let propertyName in person) {
-        display(person[propertyName]);// in this case, I get the values because I am indexing the values, using bracket notation
-    };
+//     for (let propertyName in person) {
+//         display(person[propertyName]);// in this case, I get the values because I am indexing the values, using bracket notation
+//     };
 
-    display(Object.getOwnPropertyDescriptor(person, "firstName"));//propertyy discriptor. displays the value of the firstName property in the person object. Also other attributes
-    Object.defineProperty(person, "firstName", {writable: false});//makes the first name property non writable. person is the target object, firstName is the target property, writable is the target attribute
-    display(Object.getOwnPropertyDescriptor(person, "firstName"));//now the writable value = false.
-    //try to change the value of the firstNanme property
-    // person.firstName = "Peter";//throws error: cannot assign to read only property
-    // display(Object.getOwnPropertyDescriptor(person, "firstName"));//now the writable value = false.
+//     display(Object.getOwnPropertyDescriptor(person, "firstName"));//propertyy discriptor. displays the value of the firstName property in the person object. Also other attributes
+//     Object.defineProperty(person, "firstName", {writable: false});//makes the first name property non writable. person is the target object, firstName is the target property, writable is the target attribute
+//     display(Object.getOwnPropertyDescriptor(person, "firstName"));//now the writable value = false.
+//     //try to change the value of the firstNanme property
+//     // person.firstName = "Peter";//throws error: cannot assign to read only property
+//     // display(Object.getOwnPropertyDescriptor(person, "firstName"));//now the writable value = false.
 
-    //lets add a property that has an object to the person object
-    person.gender = "male";
-    display(person);
-    display(Object.getOwnPropertyDescriptor(person, "gender"));
-    person.name = {"firstName": "Lucycan", "lastName": "Ly",};//this adds a property to the person object. this property now has the folowing properties.
-    display(person);
-    display("the properties in the name property", person.name);
-    display(Object.getOwnPropertyDescriptor(person, "name"));
-    display(person);
-    //because the firstName and lastName properties are now in the name property. I want to delete the those properties
-    delete person.firstName; delete person.lastName
-    display(person); 
+//     //lets add a property that has an object to the person object
+//     person.gender = "male";
+//     display(person);
+//     display(Object.getOwnPropertyDescriptor(person, "gender"));
+//     person.name = {"firstName": "Lucycan", "lastName": "Ly",};//this adds a property to the person object. this property now has the folowing properties.
+//     display(person);
+//     display("the properties in the name property", person.name);
+//     display(Object.getOwnPropertyDescriptor(person, "name"));
+//     display(person);
+//     //because the firstName and lastName properties are now in the name property. I want to delete the those properties
+//     delete person.firstName; delete person.lastName
+//     display(person); 
 
-    display(`lets make the name property non writable`);
-    display(Object.getOwnPropertyDescriptor(person, "name"));
-    Object.defineProperty(person, "name", {writable: false});
-    display(Object.getOwnPropertyDescriptor(person, "name"));
-    display("lets see if we can write to it now.");
-    display(person.name.firstName = "Lee");
-    display(person.name);// so I can write to it even though I set the writable property to false. why? IDK... its something about where the object is being stored in memory
-    // display("you can use Object.freeze to stop all writable on an object");
-    // Object.freeze(person.name);//freeze the person.name property
-    // display(person.name.firstName = "Lucycan");
-    // display("the change did not reflectr because the freeze",person.name);
+//     display(`lets make the name property non writable`);
+//     display(Object.getOwnPropertyDescriptor(person, "name"));
+//     Object.defineProperty(person, "name", {writable: false});
+//     display(Object.getOwnPropertyDescriptor(person, "name"));
+//     display("lets see if we can write to it now.");
+//     display(person.name.firstName = "Lee");
+//     display(person.name);// so I can write to it even though I set the writable property to false. why? IDK... its something about where the object is being stored in memory
+//     // display("you can use Object.freeze to stop all writable on an object");
+//     // Object.freeze(person.name);//freeze the person.name property
+//     // display(person.name.firstName = "Lucycan");
+//     // display("the change did not reflectr because the freeze",person.name);
 
-    display("enumerable property");
-    person.name.firstName = "Lucycan"
-    display(Object.getOwnPropertyDescriptor(person.name, "firstName"));//displays the value of the firstName property. person > name> firstName > Lucycan  
-    display("change enumearable to false")
-    display('use for in loop');
-    for (let propertyName in person) {//using the for in to loop thru properties
-        display(person[propertyName])
-    };
-    Object.defineProperty(person.name, "firstName", {enumerable: false});
-    display(Object.getOwnPropertyDescriptor(person.name, "firstName"));//displays the value of the firstName property. person > name> firstName > Lucycan  
-    display("here, the firstName value is no longer displayed in the object because we set enumerable to false",person.name);
-    //run the for loop again to see if firstName shows up
-    for (let propertyName in person.name) {//using the for in to loop thru properties
-        display(propertyName);
-    };
+//     display("enumerable property");
+//     person.name.firstName = "Lucycan"
+//     display(Object.getOwnPropertyDescriptor(person.name, "firstName"));//displays the value of the firstName property. person > name> firstName > Lucycan  
+//     display("change enumearable to false")
+//     display('use for in loop');
+//     for (let propertyName in person) {//using the for in to loop thru properties
+//         display(person[propertyName])
+//     };
+//     Object.defineProperty(person.name, "firstName", {enumerable: false});
+//     display(Object.getOwnPropertyDescriptor(person.name, "firstName"));//displays the value of the firstName property. person > name> firstName > Lucycan  
+//     display("here, the firstName value is no longer displayed in the object because we set enumerable to false",person.name);
+//     //run the for loop again to see if firstName shows up
+//     for (let propertyName in person.name) {//using the for in to loop thru properties
+//         display(propertyName);
+//     };
+// })();
+
+(function() {
+    class Person {
+        constructor(firstName, lastName, age) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+        }
+
+        get fullName() {
+            return `${this.firstName} ${this.lastName}`; 
+        }
+        set fullName(fullName) {
+            let nameParts = fullName.split(' ');
+            this.firstName = nameParts[0];
+            this.lastName = nameParts[1];
+        }
+
+        isAdult() {
+            return this.age >= 18;
+        }
+    }
+    // console.log(Object.getOwnPropertyDescriptor(Person.prototype, "fullName"));
+    Object.defineProperty(Person.prototype, "fullName", {enumerable: true});
+
+    // console.log(Object.getOwnPropertyDescriptor(Person.prototype, "fullName"));
+
+    let lucycan = new Person("Lucycan", "Ly", 43);
+    display(lucycan);
 })();
+
+
+
+
