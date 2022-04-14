@@ -215,6 +215,9 @@
 //         display(propertyName);
 //     };
 // })();
+////////////////////////////////////////////////////////////////////////////////////////
+
+//I was having an issiue seeing the same results in Chrome debugger, so I came back here to use his display tutorial
 
 (function() {
     class Person {
@@ -222,30 +225,71 @@
             this.firstName = firstName;
             this.lastName = lastName;
             this.age = age;
-        }
+        };
 
         get fullName() {
             return `${this.firstName} ${this.lastName}`; 
-        }
+        };
         set fullName(fullName) {
             let nameParts = fullName.split(' ');
             this.firstName = nameParts[0];
             this.lastName = nameParts[1];
-        }
+        };
 
         isAdult() {
             return this.age >= 18;
+        };
+
+    };
+    
+    class Student extends Person {
+        constructor(firstName, lastName, age) {
+            super(firstName, lastName, age);//the super key word is used to access and call functions on an objects parent
+            this.enrolledCourses = [];
+        };
+        enroll(courseId) {
+            this.enrolledCourses.push(courseId);
+        };
+        getCourses() {
+            return `${this.fullName}'s enrolled courses are: ${this.enrolledCourses.join(", ")}`
         }
-    }
-    // console.log(Object.getOwnPropertyDescriptor(Person.prototype, "fullName"));
+    };
+
     Object.defineProperty(Person.prototype, "fullName", {enumerable: true});
-
-    // console.log(Object.getOwnPropertyDescriptor(Person.prototype, "fullName"));
-
+    
     let lucycan = new Person("Lucycan", "Ly", 43);
     display(lucycan);
+    let rosy = new Person("Rosy", "Thao", 32);
+    display(rosy);
+    // create a new Student
+    let sheng = new Student("Sheng", "Yang", 32);
+    display(sheng);
+    //enroll sheng in some courses
+    sheng.enroll("Math");
+    sheng.enroll("Science");
+    display(sheng.getCourses());
 })();
 
+(() => {
+    class Person {
+        constructor() {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+        };
+        getFullName() {
+            return `${this.fullName} ${this.lastName}`;
+        };
+        setFullName() {
+            let nameParts = fullName.split(" ");
+            this.firstName = nameParts[0];
+            this.lastName = nameParts[1];
+        };
+        isAdult() {
+            return this.age >= 18;
+        };
+    };
+});
 
 
 

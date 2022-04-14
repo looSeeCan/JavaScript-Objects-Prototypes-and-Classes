@@ -116,7 +116,7 @@ let reloadJS = () => {
 
   let newScriptTag = document.createElement('script');
   newScriptTag.id = 'script';
-  newScriptTag.src = 'objects.js';
+  newScriptTag.src = 'display.js';
   newScriptTag.textContent = '//script';
   var body = document.getElementsByTagName('body')[0];
 
