@@ -270,17 +270,20 @@
     display(sheng.getCourses());
 })();
 
+//Static Properties and Methods
+//are items that you can access on a class without having to first create an instance of that class
+
 (() => {
     class Person {
-        constructor() {
+        constructor(firstName, lastName, age) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.age = age;
         };
-        getFullName() {
-            return `${this.fullName} ${this.lastName}`;
+        get fullName() {
+            return `${this.firstName} ${this.lastName}`;
         };
-        setFullName() {
+        set fullName(fullName) {
             let nameParts = fullName.split(" ");
             this.firstName = nameParts[0];
             this.lastName = nameParts[1];
@@ -289,7 +292,41 @@
             return this.age >= 18;
         };
     };
-});
+
+    class Student extends Person {
+        static fromPerson(person) {//when this static is called mariah is passed in as an argument. a new Student is created
+            return new Student(person.firstName, person.lastName, person.age);
+        };
+        constructor(firstName, lastName, age) {
+            super(firstName, lastName, age);
+            this.enrolledCourses = [];
+        };
+        enroll(courseId) {
+            this.enrolledCourses.pusn(courseId);
+        };
+        getCourses() {
+            return `${this.fullName}'s enrolled courses are ${this.enrolledCourses.join(", ")}`;
+        };
+    };
+
+    let lucycan = new Student("Lucycan", "Ly", 43);
+    display(lucycan);
+    display(lucycan.getCourses());//I can call getCourses like this, because lucycan is an instance of Student
+    // display(Student.getCourses());// you can not call getCourses like this, because there in no getCourses() directly on the Student class. It's only on instances created on this classs
+    //I DONT REALLY UNDERSTAND WHAT HE IS TEACHING ABOUT STATIC HERE. I NEED TO CHECK OUT SOMETHING MORE SIMPLE. I AM GOING TO DO THAT ON THE javsScript_classes.js
+
+    //ok... I think i got this now....
+    //if say a new person comes to school and just logs in but does not want to be a student yet. we record that persons name
+    let mariah = new Person("Mariah", "Carry", 50);
+    display(mariah);//ok all good. now mariah inherits all the methods in the person class that are not static
+    display(mariah.fullName);
+    display(mariah.isAdult());//this and .fullName are the methods that mariah has access to 
+    //say we now want to add mariah as a student
+    let mariahStudent = Student.fromPerson(mariah)// declare a variable. call the static fromPerson method that Student only has access to
+    display(mariahStudent);
+    display(mariah.fromPerson);//returns undefined because this is a static method that only Person has access to    
+})();
+
 
 
 
