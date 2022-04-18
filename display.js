@@ -326,7 +326,97 @@
     display(mariahStudent);
     display(mariah.fromPerson);//returns undefined because this is a static method that only Person has access to    
 })();
+///////////////////////////////////////////////////////////
 
+//Using built in JavaScript Objects
 
+(() => {
+    let rightNow = new Date();
+    display(rightNow.toString()); 
 
+    let someDate = new Date(2050, 11, 17, 12, 30, 30, 01);//year, month(0 based), day, hour, minute, second, millisecond
+    display(someDate.toString());
 
+    display(someDate.getFullYear());
+    display(someDate.getMonth());
+    display(someDate.getDay());//this is the number of the day of the week. Sun = 0, Mon = 1, ...........
+    display(someDate.getDate());
+    display(someDate.getHours());
+    display(someDate.getMinutes());
+    display(someDate.getSeconds());
+    display(someDate.getMilliseconds());
+    
+    someDate.setMonth(10);//so instead of Dec, it will be Novemeber
+    display(someDate.getDay());//because I changed the month, the number of the day changed.
+    display(someDate.toString());
+})();
+
+//Validating strings with Reg Expressions object
+
+(() => {
+    const checkPassWordComplexity = (passWord) => {
+        // let regEx = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$`);//(lowercase characters)(uppercase characters)(numbers) and (atleast 8 characters long)
+        let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/ //// shorthand^ (lowercase characters)(uppercase characters)(numbers) and (atleast 8 characters long)
+        return regex.test(passWord);//test function    
+    };
+    
+    display(checkPassWordComplexity("ThisPassordisweak"));//false
+    display(checkPassWordComplexity("Thispassordisstrong8"));//true
+})();
+
+//Exec function
+//like the test function, the exec function is used to search a string, but instead of returning true or false, it returns information about what it found.
+(() => {
+    const findAlerts = (logData) => {
+        // let regex = /ERROR:/;//this is going to search for a word ERROR followed by a colon
+        let regex = /ERROR.*?:/;//if there are more instances of the word ERROR, for insstance, "ERROR(HIGH)". This will find the string ERROR followed by any characters, followed by a colon.
+        
+        return regex.exec(logData);//the regex function returns an array which is an object. Arrays in javascript are realy just objects.    
+    };
+
+    let logData = "INFO:OK;ERROR(HIGH):Something broke;";
+    let result = findAlerts(logData);
+    display(result);// the array only has one item in it. That is the word ERROR. index is where in the array the exec function found the string. input is the string that was passed in to the function
+
+    display("///////////////////////");
+    display(result[0]);//indexing the first index in the array which is ERROR 
+    display(result.index);
+    display(result.input);
+})();
+
+display("What if there are multiple errors?");
+
+(() => {
+    const findAlerts = (logData) => {
+        // let regex = /ERROR:/;//this is going to search for a word ERROR followed by a colon
+        let regex = /ERROR.*?:/g;//by default the exec function only finds the first and stops trying. to have it keep going, we need to give it the global flag  by adding a "g"
+        display(regex.exec(logData));//finds the first string. the return will find the second string. only if the global glag is declared
+        display(regex.exec(logData));//the regex function returns an array which is an object. Arrays in javascript are realy just objects.    
+    };
+
+    let multipleErrors = "INFO:OK;ERROR(HIGH):Something broke;ERROR(LOW):Something is fishy;";
+    display(findAlerts(multipleErrors));//
+})();
+
+display('----------------------------------------------');
+display("Capture Groups");
+(() => {
+    const findAlerts = (logData) => {
+        let regex = /ERROR(.*?):(.*?);/g;//two capture groups. capture groups allow you to captrue and return data from within the input string
+        //the () are what creates the capture groups. One to capture the level of the error and one to capture the error message
+        // display(regex.exec(logData));
+        // displayRegexArray(regex.exec(logData));//the regex function returns an array which is an object. Arrays in javascript are realy just objects.    
+        // //an array that the author uses to sort out the data. This vs the one above
+
+        display("for loop");
+        ///use a loop to find errors
+        let result = regex.exec(logData);
+        while(result !== null) {
+            display(result[1]);
+            // display(result[2]);
+            result = regex.exec(logData);
+        };
+    };
+    let multipleErrors = "INFO:OK;ERROR(HIGH):Something broke;ERROR(LOW):Something is fishy;";
+    findAlerts(multipleErrors);
+})();

@@ -126,3 +126,82 @@
 })();
 
 
+(() => {
+    let someDate = new Date(2050, 11, 19, 12, 30, 30);
+    console.log(someDate);
+    
+    console.log(someDate.getFullYear());
+    console.log(someDate.getMonth());//gets the month. Jan = 0;
+    console.log(someDate.getDay());//gets the number of the day of the week. Sunday = 0
+    console.log(someDate.getDate());
+    console.log(someDate.getHours());
+    console.log(someDate.getMinutes());
+    
+    console.log(someDate.__proto__);
+
+})();
+
+
+//Exec function
+//like the test function, the exec function is used to search a string, but instead of returning true or false, it returns information about what it found.
+
+(() => {
+    const findAlerts = (logData) => {
+        // let regex = /ERROR:/;//this is going to search for a word ERROR followed by a colon
+        let regex = /ERROR.*?:/;
+        
+        return regex.exec(logData);//the regex function returns an array    
+    };
+
+    let logData = "INFO:OK;ERROR:Something broke;";
+    let result = findAlerts(logData);
+    console.log(result);
+    console.log("///////////////////////");
+    console.log(findAlerts("ERROR:blahblahblah"));
+
+    console.log("///////////////////////");
+    console.log(result[0]);//indexing the first index in the array which is ERROR 
+    console.log(result.index);
+    console.log(result.input);
+
+    
+    //what if there are multiple errors
+    let multipleErrors = "INFO:OK;ERROR(HIGH):Something broke;ERROR(Low):Something fishy;";
+    console.log(findAlerts(multipleErrors));
+})();
+
+
+console.log("What if there are multiple errors?");
+
+(() => {
+    const findAlerts = (logData) => {
+        // let regex = /ERROR:/;//this is going to search for a word ERROR followed by a colon
+        let regex = /ERROR.*?:/g;//by default the exec function only finds the first and stops trying. to have it keep going, we need to give it the global flag  by adding a "g"
+        console.log(regex.exec(logData));//finds the first string. the return will find the second string. only if the global glag is declared
+        return regex.exec(logData);//the regex function returns an array which is an object. Arrays in javascript are realy just objects.    
+    };
+
+    let multipleErrors = "INFO:OK;ERROR(HIGH):Something broke;ERROR(LOW):Something is fishy;";
+    let result = findAlerts(multipleErrors);
+    console.log(result);
+})();
+
+console.log('----------------Capture Groups------------------------------');
+
+(() => {
+    const findAlerts = (logData) => {
+        let regex = /ERROR(.*?):(.*?);/g;//two capture groups. capture groups allow you to captrue and return data from within the input string
+        //the () are what creates the capture groups. One to capture the level of the error and one to capture the error message
+        
+        let result = regex.exec(logData);//when declared here it is only going to find the first error and return it
+        console.log(result);//there are three indexes in the array, because, of the two capture groups
+        console.log(result !== null);
+        while(result) {//why does this come out of the loop? when is it not true?
+            console.log(result[0]);//logs the first index
+            console.log(result[1]);//logs the second index
+            result = regex.exec(logData);//declared here so it will find the second error and if there is more errors it will keep itterating
+        };
+    };
+    let multipleErrors = "INFO:OK;ERROR(HIGH):Something broke;ERROR(LOW):Something is fishy;ERROR(MEDIUM):SOMETHING SUSPECT;";
+    findAlerts(multipleErrors);
+})();
